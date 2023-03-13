@@ -1,32 +1,31 @@
 import React from 'react';
-// import Products from '../api/product.json';
+import products from '../api/products.json';
 import { useQuery } from "react-query";
-import axios from "axios";
 
 const fetchProducts = async () => {
-//  return await fetch("https://pokeapi.co/api/v2/pokemon")
-//  .then((response) => response.json())
-//  .then((data) => data?.results).catch((e) => {
-//   console.log(e)
-//  });
-return await fetch("https://pokeapi.co/api/v2/pokemon")
+ return await fetch("https://pokeapi.co/api/v2/pokemon")
  .then((response) => response.json())
  .then((data) => data?.results).catch((e) => {
   console.log(e)
  });
+// return await fetch(products)
+//  .then((data) => console.log(data)).catch((e) => {
+//   console.log(e,"eee")
+//  });
 };
 
 const Home = () => {
-    const { data, status, error } = useQuery("products", fetchProducts);
+    const { data, status } = useQuery("products", fetchProducts);
     
   return (
     <div>
-         {data?.map((user) => {
-         console.log(user,"user")
+      {status === "error" && <p>Found error</p>}
+         {status === "success" && ( data?.map((user) => {
           return (
-             <p>{user.name}</p>
+             <p><b>{user.name}</b>: <span>{user.url}</span></p>
+            // <p>{user.description}</p>
           )
-       })}
+       }))}
     </div>
   )
 }
