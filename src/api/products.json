@@ -1,0 +1,49 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "iPhone 9",
+      "description": "An apple mobile which is nothing like apple",
+      "price": 549,
+      "discountPercentage": 12.96,
+      "rating": 4,
+      "stock": 94,
+      "brand": "Apple",
+      "category": "smartphones",
+      "images": [
+          "https://i.dummyjson.com/data/products/10/1.jpg",
+          "https://i.dummyjson.com/data/products/10/2.jpg"
+        ]
+    },
+    {
+      "id": 2,
+      "title": "iPhone 9",
+      "description": "An apple mobile which is nothing like apple",
+      "price": 550,
+      "discountPercentage": 12.96,
+      "rating": 4.9,
+      "stock": 95,
+      "brand": "Apple",
+      "category": "smartphones",
+      "images": [
+        "https://i.dummyjson.com/data/products/10/3.jpg",
+        "https://i.dummyjson.com/data/products/10/thumbnail.jpeg"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "iPhone 9",
+      "description": "An apple mobile which is nothing like apple",
+      "price": 551,
+      "discountPercentage": 12.96,
+      "rating": 4.69,
+      "stock": 96,
+      "brand": "Apple",
+      "category": "smartphones",
+      "images": [
+        "https://i.dummyjson.com/data/products/10/1.jpg",
+        "https://i.dummyjson.com/data/products/10/3.jpg"
+      ]
+    }
+  ]
+}
