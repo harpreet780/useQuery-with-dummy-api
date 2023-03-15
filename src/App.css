@@ -2,7 +2,11 @@
   width: 80%;
   margin: 20px auto;
 }
-
+.header {
+  margin-left: 55px;
+  width: 90%;
+  margin: auto;
+}
 .product-cards {
   display: flex;
   align-items: center;
@@ -16,7 +20,7 @@
   margin: 5px;
   background-color: #fff;
   border: 1px solid #ccc;
-  min-height: 450px;
+  min-height: 430px;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -30,6 +34,16 @@
   line-height: 18px;
   font-size: 16px;
 }
+.desc {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;  
+    font-size: 14px !important;
+    line-height: 20px !important;
+}
+
 .imgBox {
   height: 250px;
   overflow: hidden;
@@ -52,7 +66,7 @@
   background-color: #addfa7;
 }
 .SearchOption {
-  width: 90%;
+  width: 100%;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -60,10 +74,39 @@
   padding: 10px 20px;
   text-transform: capitalize;
   color: #454545;
+  margin-left: 10px;
 }
 .loaderWrap {
   height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media only screen and (max-width: 1200px) {
+  .card {
+    width: 48%;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .card {
+    min-height: 440px;
+    width: 48%;
+  }
+  .header {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .productListWrap {
+    padding: 20px;
+    width: 100%;
+  }
+  .card {
+    width: 100%;
+    min-height: 330px;
+  }
+  .imgBox {
+    height: 200px;
+  }
 }
