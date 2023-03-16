@@ -23,6 +23,7 @@
   min-height: 430px;
   border-radius: 8px;
   overflow: hidden;
+  text-decoration: none !important;
 }
 
 .card:hover {
@@ -32,6 +33,7 @@
 .card p {
   margin-bottom: 10px !important;
   line-height: 18px;
+  color: #000 !important;
   font-size: 16px;
 }
 .desc {
@@ -82,7 +84,35 @@
   align-items: center;
   justify-content: center;
 }
-
+.single-card {
+  width: 80%;
+  margin: 50px auto;
+}
+.single-card .imgBox {
+  height: 500px;
+  width: 500px;
+  margin: auto;
+  display: block;
+  border-bottom: none;
+}
+.single-card .imgBox img {
+  object-fit: cover;
+}
+.single-card p {
+  text-align: center;
+}
+.backBtn { 
+   color: #000;
+   font-size: 16px;
+   text-decoration: none;
+   background-color: rgb(255, 160, 33);
+   font-weight: 500;
+   border-radius: 20px;
+  padding: 10px 20px;
+}
+.backBtn svg {
+  margin-top: -2px;
+}
 @media only screen and (max-width: 1200px) {
   .card {
     width: 48%;

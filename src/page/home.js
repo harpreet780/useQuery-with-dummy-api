@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from "react-query";
+import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 
 const fetchdata = async () => {
@@ -30,13 +31,12 @@ const Home = () => {
   console.log(isFilteredItem, "addd")
   console.log({ data, isFilteredItem })
 
-  let sortOptions = isFilteredItem ==="Brand" || isFilteredItem ==="Category" || isFilteredItem ==="title" || isFilteredItem ==="Description";
+  // let sortOptions = isFilteredItem ==="Brand" || isFilteredItem ==="Category" || isFilteredItem ==="title" || isFilteredItem ==="Description";
   
-  const productList = isFilteredItem && searchInput ? data?.filter?.(item =>
-      item[isFilteredItem]?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
+  const productList = isFilteredItem && searchInput ? data?.filter?.(item => 
+    item[isFilteredItem]?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
     : data
-    console.log(productList,"pre")
-
+    console.log(isFilteredItem.includes(),"isFilteredItem")
   return (
     <div className="productListWrap">
       <div className='header'>
@@ -80,22 +80,24 @@ const Home = () => {
       }
       <div className="product-cards">
         {status === "success" &&
-          (productList?.map((user) => {
+          (productList?.map((products) => {
             return (
-              <div className="card">
+              <Link to={`/product/${products.id}`} className="card">
+              <div>
                 <div className='imgBox'>
                   {status === "loading" ?
                     <Spinner color="primary" />
-                    : <img src={user.images[0]} alt="img" className='w-100 h-100' />
+                    : <img src={products.images[0]} alt="img" className='w-100 h-100' />
                   }
                 </div>
                 <div className="p-3">
-                  <p className='text-decoration-underline'><b>{user.title}</b></p>
-                  <p>Brand: <b>{user.brand}</b></p>
-                  <p>Category: <b>{user.category}</b></p>
-                  <p className='desc'>{user.description}</p>
+                  <p className='text-decoration-underline'><b>{products.title}</b></p>
+                  <p>Brand: <b>{products.brand}</b></p>
+                  <p>Category: <b>{products.category}</b></p>
+                  <p className='desc'>{products.description}</p>
                 </div>
               </div>
+              </Link>
             )
           }))}
       </div>
