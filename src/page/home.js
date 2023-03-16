@@ -12,42 +12,20 @@ const fetchdata = async () => {
 
 const Home = () => {
   const { data, status } = useQuery("products", fetchdata);
-  // const [products, setProducts] = useState([]);
-  // const [isFilteredItem, setIsFilteredItem] = useState("")  // for single option selected at a time
+  // const [products, setProducts] = useState([]); // for set the api(data)
+  const [isFilteredItem, setIsFilteredItem] = useState("")  
   const [showFilterOption, setshowFilterOption] = useState();
-  const [isFilteredItem, setIsFilteredItem] = useState([])
   const [searchInput, setSearchInput] = useState("");
-  const [active, setIsActive] = useState();
-  
+
   // useEffect(() => {
   //   setProducts(data)
   // }, [data])
   const handleCategories = () => {
     setshowFilterOption(!showFilterOption);
   }
-
-  const buttons = ['Brand', 'Category', 'Title', 'Description']
-
-  const filterOptions = (data) => {
-    const addBtnOptions = [...isFilteredItem]
-    addBtnOptions.push(data);
-    setIsFilteredItem(addBtnOptions);
-  }
-  console.log(isFilteredItem, "addd")
-  console.log({ data, isFilteredItem })
-
-  let sortOptions = isFilteredItem ==="Brand" || isFilteredItem ==="Category" || isFilteredItem ==="title" || isFilteredItem ==="Description";
-  
   const productList = isFilteredItem && searchInput ? data?.filter?.(item =>
-      item[isFilteredItem]?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
+    item[isFilteredItem]?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
     : data
-    console.log(productList,"pre")
-
-    // GET SINGLE SELECT AT A TIME
-    // const productList = isFilteredItem && searchInput ? data?.filter?.(item =>
-    //   item[isFilteredItem]?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
-    // : data
-
 
   return (
     <div className="productListWrap">
@@ -73,21 +51,9 @@ const Home = () => {
             />
           </div>
         </div>
-        {showFilterOption && (
+        {showFilterOption &&
           <div className='d-flex align-items-center mt-2'>
-            {buttons?.map((btn) => {
-              return (
-                <button className={`${isFilteredItem?.includes(btn) && "card-active"} listbtn`} onClick={() => filterOptions(btn)}  >
-                  {btn}
-                </button>
-              )
-            })}
-          </div>
-        )}
-        {/* GET SINGLE SELECT AT A TIME */}
-        {/* {showFilterOption &&
-          <div className='d-flex align-items-center mt-2'>
-            <button className={`${isFilteredItem === "brand" && "card-active"} listbtn`} onClick={() => {         
+            <button className={`${isFilteredItem === "brand" && "card-active"} listbtn`} onClick={() => {
               setIsFilteredItem("brand")
             }}>
               Brand
@@ -108,7 +74,7 @@ const Home = () => {
               Description
             </button>
           </div>
-        } */}
+        }
       </div>
       {status === "loading" &&
         <div className='loaderWrap'>
