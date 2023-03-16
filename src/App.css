@@ -2,11 +2,13 @@
   width: 80%;
   margin: 20px auto;
 }
+
 .header {
   margin-left: 55px;
   width: 90%;
   margin: auto;
 }
+
 .product-cards {
   display: flex;
   align-items: center;
@@ -15,6 +17,7 @@
   margin: auto;
   padding: 20px 0;
 }
+
 .card {
   width: 30%;
   margin: 5px;
@@ -36,14 +39,15 @@
   color: #000 !important;
   font-size: 16px;
 }
+
 .desc {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;  
-    font-size: 14px !important;
-    line-height: 20px !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  font-size: 14px !important;
+  line-height: 20px !important;
 }
 
 .imgBox {
@@ -52,9 +56,11 @@
   margin-bottom: 10px;
   border-bottom: 1px solid #efefef;
 }
+
 .imgBox img {
   object-fit: fill;
 }
+
 .listbtn {
   padding: 8px 20px;
   font-size: 16px;
@@ -64,9 +70,11 @@
   border-radius: 20px;
   margin: 5px;
 }
+
 .card-active {
   background-color: #addfa7;
 }
+
 .SearchOption {
   width: 100%;
   background-color: #fff;
@@ -78,16 +86,19 @@
   color: #454545;
   margin-left: 10px;
 }
+
 .loaderWrap {
   height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .single-card {
   width: 80%;
   margin: 50px auto;
 }
+
 .single-card .imgBox {
   height: 500px;
   width: 500px;
@@ -95,48 +106,67 @@
   display: block;
   border-bottom: none;
 }
+
 .single-card .imgBox img {
   object-fit: cover;
 }
+
 .single-card p {
   text-align: center;
 }
-.backBtn { 
-   color: #000;
-   font-size: 16px;
-   text-decoration: none;
-   background-color: rgb(255, 160, 33);
-   font-weight: 500;
-   border-radius: 20px;
+
+.backBtn {
+  color: #000 !important;
+  font-size: 16px;
+  text-decoration: none;
+  background-color: rgb(255, 160, 33);
+  font-weight: 500;
+  border-radius: 20px;
   padding: 10px 20px;
 }
+
 .backBtn svg {
   margin-top: -2px;
 }
+
 @media only screen and (max-width: 1200px) {
   .card {
     width: 48%;
   }
 }
+
 @media only screen and (max-width: 1200px) {
   .card {
     min-height: 440px;
     width: 48%;
   }
+
   .header {
     width: 100%;
   }
 }
+
 @media only screen and (max-width: 767px) {
   .productListWrap {
     padding: 20px;
     width: 100%;
   }
+
   .card {
     width: 100%;
     min-height: 330px;
   }
+
   .imgBox {
     height: 200px;
   }
+  .single-card .imgBox {
+    height: 200px;
+    width: 200px;
+  }
+  .single-card {
+    width: 90%;
+    margin: 20px auto;
+  }
+  
 }

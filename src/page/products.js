@@ -5,7 +5,6 @@ import { MdOutlineArrowBackIosNew } from "react-icons/md"
 const Products = () => {
     const params = useParams();
     const [singleProduct, setSingleProduct] = useState([]);
-    console.log(params, "params")
     const fetchdata = async () => {
         return await fetch(`https://dummyjson.com/products/${params.productId}`)
             .then((response) => response.json())
@@ -17,15 +16,14 @@ const Products = () => {
         fetchdata()
     }, [params.id])
 
-    console.log(singleProduct, "prooooooo")
     return (
         <>
             <div className='single-card'>
-            <h3 className='text-center mb-3 text-decoration-underline'>Product Detail page</h3>
                 <a href="/" className='backBtn'>
                     <MdOutlineArrowBackIosNew />
                     <span>Back</span>
                 </a>
+                <h3 className='text-center mb-3 text-decoration-underline'>Product Detail page</h3>
                 {singleProduct?.map((pro) => {
                     return (
                         <div>
