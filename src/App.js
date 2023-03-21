@@ -6,6 +6,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Products from './page/products';
+import ErrorPage from "./page/errorPage";
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -15,13 +16,15 @@ const router = createBrowserRouter([
       <QueryClientProvider client={queryClient}>
         <Home />
       </QueryClientProvider>,
+    errorElement: <ErrorPage/>,
   },
   {
     path: "product/:productId",
     element:
       <QueryClientProvider client={queryClient}>
         <Products />,
-      </QueryClientProvider>
+      </QueryClientProvider>,
+    errorElement: <ErrorPage />,
   },
 ])
 

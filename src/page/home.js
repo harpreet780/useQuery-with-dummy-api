@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from "react-query";
 import { Link } from 'react-router-dom';
-import { Spinner } from 'reactstrap';
+import { Input, Spinner } from 'reactstrap';
+import PaginationScreen from '../Components/pagination';
 
-const fetchdata = async () => {
-  return await fetch("https://dummyjson.com/products?skip=0&limit=50")
+const fetchSkipdata = async ({ queryKey }) => {
+  return await fetch(`https://dummyjson.com/products?skip=${queryKey[1]}&limit=10`)
     .then((response) => response.json())
     .then((data) => data?.products).catch((e) => {
       console.log(e)
@@ -12,31 +13,71 @@ const fetchdata = async () => {
 };
 
 const Home = () => {
-  const { data, status } = useQuery("products", fetchdata);
+  const buttons = ['brand', 'category', 'Title', 'Description']
   const [showFilterOption, setshowFilterOption] = useState();
   const [isFilteredItem, setIsFilteredItem] = useState([])
   const [searchInput, setSearchInput] = useState("");
-  
+  const [sortPrice, setSortPrice] = useState("")
+  const [skipPerPage, setSkipPerPage] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
+  const [totalDataLength, setTotalDataLength] = useState(0);
+  const { data, status } = useQuery(['products', skipPerPage], fetchSkipdata);
+
   const handleCategories = () => {
     setshowFilterOption(!showFilterOption);
   }
-
-  const buttons = ['Brand', 'Category', 'Title', 'Description']
-
+  
   const filterOptions = (data) => {
     const addBtnOptions = [...isFilteredItem]
     addBtnOptions.push(data);
     setIsFilteredItem(addBtnOptions);
   }
-  console.log(isFilteredItem, "addd")
-  console.log({ data, isFilteredItem })
 
-  // let sortOptions = isFilteredItem ==="Brand" || isFilteredItem ==="Category" || isFilteredItem ==="title" || isFilteredItem ==="Description";
-  
-  const productList = isFilteredItem && searchInput ? data?.filter?.(item => 
-    item[isFilteredItem]?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
-    : data
-    console.log(isFilteredItem.includes(),"isFilteredItem")
+  const fetchdata = async () => {
+    return await fetch(`https://dummyjson.com/products`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTotalDataLength(data?.products?.length)
+      }).catch((e) => {
+        console.log(e)
+      });
+  };
+
+  // let matchedKeys;
+  // const productList = isFilteredItem && searchInput ? products?.filter?.((item) => {
+  //   matchedKeys = Object.keys(item) === isFilteredItem.values()
+  //   return (
+  //     matchedKeys?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
+  // }
+  // )
+  //   : products
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPageCount(newPage);
+    if (skipPerPage < data?.length) {
+      setSkipPerPage((newPage - 1) * 10)
+    }
+  };
+
+  useEffect(() => {
+    if (skipPerPage > 1) {
+      fetchSkipdata(skipPerPage)
+    }
+  }, [skipPerPage])
+
+  useEffect(() => {
+    if (sortPrice === "High to Low") {
+      data?.sort((a, b) => a.price - b.price);
+    }
+    else {
+      data?.sort((a, b) => b.price - a.price);
+    }
+  }, [sortPrice])
+
+  useEffect(() => {
+    fetchdata()
+  }, [])
+
   return (
     <div className="productListWrap">
       <div className='header'>
@@ -72,6 +113,18 @@ const Home = () => {
             })}
           </div>
         )}
+        <Input
+          id="exampleSelect"
+          name="select"
+          type="select"
+          className="sorting-select"
+          onChange={(e) => {
+            setSortPrice(e?.target?.value)
+          }}
+        >
+          <option value="Low to High"> Low to high </option>
+          <option value="High to Low">High to low </option>
+        </Input>
       </div>
       {status === "loading" &&
         <div className='loaderWrap'>
@@ -80,27 +133,33 @@ const Home = () => {
       }
       <div className="product-cards">
         {status === "success" &&
-          (productList?.map((products) => {
+          (data?.map((products) => {
             return (
               <Link to={`/product/${products.id}`} className="card">
-              <div>
-                <div className='imgBox'>
-                  {status === "loading" ?
-                    <Spinner color="primary" />
-                    : <img src={products.images[0]} alt="img" className='w-100 h-100' />
-                  }
+                <div>
+                  <div className='imgBox'>
+                    {status === "loading" ?
+                      <Spinner color="primary" />
+                      : <img src={products.images[0]} alt="img" className='w-100 h-100' />
+                    }
+                  </div>
+                  <div className="p-3">
+                    <p className='text-decoration-underline'><b>{products.title}</b></p>
+                    <p>Brand: <b>{products.brand}</b></p>
+                    <p>Category: <b>{products.category}</b></p>
+                    <p>Price: <b>{products.price}</b></p>
+                    <p className='desc'>{products.description}</p>
+                  </div>
                 </div>
-                <div className="p-3">
-                  <p className='text-decoration-underline'><b>{products.title}</b></p>
-                  <p>Brand: <b>{products.brand}</b></p>
-                  <p>Category: <b>{products.category}</b></p>
-                  <p className='desc'>{products.description}</p>
-                </div>
-              </div>
               </Link>
             )
           }))}
       </div>
+      <PaginationScreen
+        pageCount={pageCount}
+        handleChangePage={handleChangePage}
+        pageLength={totalDataLength}
+      />
     </div>
   )
 }
