@@ -65,14 +65,12 @@ const Home = () => {
   };
   let minValue = priceRangeValue[0];
   let maxValue = priceRangeValue[1];
-  // FOR FILTER ACC TO RANGE
+  // FOR FILTER ACC TO RANGE 
     const filterPriceRange = data?.filter((item) => {
       if(item.price >= minValue && item.price <= maxValue){
         return item
       }}
     )
-
-  const result = priceRangeValue >= [0,50] ? data :filterPriceRange;
 
   useEffect(() => {
     if (skipPerPage > 1) {
@@ -154,7 +152,7 @@ const Home = () => {
       }
       <div className="product-cards">
         {status === "success" &&
-          (result.map((products) => {
+          (data.map((products) => {
             return (
               <Link to={`/product/${products.id}`} className="card">
                 <div>
