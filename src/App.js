@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Products from './page/products';
 import ErrorPage from "./page/errorPage";
+import Wishlist from './page/wishlist';
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -23,6 +24,14 @@ const router = createBrowserRouter([
     element:
       <QueryClientProvider client={queryClient}>
         <Products />,
+      </QueryClientProvider>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "product/wishlist",
+    element:
+      <QueryClientProvider client={queryClient}>
+        <Wishlist />,
       </QueryClientProvider>,
     errorElement: <ErrorPage />,
   },
