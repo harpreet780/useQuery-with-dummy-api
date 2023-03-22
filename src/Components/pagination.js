@@ -1,8 +1,7 @@
 import React from 'react';
 import { TablePagination } from '@mui/material';
 
-const PaginationScreen = ({ pageCount, handleChangePage,setSkipPerPage,pageLength,handleChangeRowsPerPage }) => {
-   
+const PaginationScreen = ({ pageCount, handleChangePage,pageLength }) => {
     return (
         <div className='pagination'>
             <TablePagination
@@ -10,6 +9,7 @@ const PaginationScreen = ({ pageCount, handleChangePage,setSkipPerPage,pageLengt
                 count={pageLength}
                 page={pageCount}
                 onPageChange={handleChangePage}
+                rowsPerPage={8}
                 rowsPerPageOptions={[]}
             />
         </div>

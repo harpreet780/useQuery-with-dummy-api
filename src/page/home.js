@@ -3,9 +3,10 @@ import { useQuery } from "react-query";
 import { Link } from 'react-router-dom';
 import { Input, Spinner } from 'reactstrap';
 import PaginationScreen from '../Components/pagination';
+import PriceSlider from '../Components/priceSlider';
 
 const fetchSkipdata = async ({ queryKey }) => {
-  return await fetch(`https://dummyjson.com/products?skip=${queryKey[1]}&limit=10`)
+  return await fetch(`https://dummyjson.com/products?skip=${queryKey[1]}&limit=8`)
     .then((response) => response.json())
     .then((data) => data?.products).catch((e) => {
       console.log(e)
@@ -19,14 +20,15 @@ const Home = () => {
   const [searchInput, setSearchInput] = useState("");
   const [sortPrice, setSortPrice] = useState("")
   const [skipPerPage, setSkipPerPage] = useState(0);
-  const [pageCount, setPageCount] = useState(1);
+  const [pageCount, setPageCount] = useState(0);
   const [totalDataLength, setTotalDataLength] = useState(0);
-  const { data, status } = useQuery(['products', skipPerPage], fetchSkipdata);
+  const [priceRangeValue, setPriceRangeValue] = useState([0,50]);
 
+  const { data, status } = useQuery(['products', skipPerPage], fetchSkipdata);
   const handleCategories = () => {
     setshowFilterOption(!showFilterOption);
   }
-  
+
   const filterOptions = (data) => {
     const addBtnOptions = [...isFilteredItem]
     addBtnOptions.push(data);
@@ -43,6 +45,9 @@ const Home = () => {
       });
   };
 
+  const handlePriceRangeChange = (event: any, newValue: number ) => {
+    setPriceRangeValue(newValue);
+  };
   // let matchedKeys;
   // const productList = isFilteredItem && searchInput ? products?.filter?.((item) => {
   //   matchedKeys = Object.keys(item) === isFilteredItem.values()
@@ -54,10 +59,20 @@ const Home = () => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPageCount(newPage);
-    if (skipPerPage < data?.length) {
-      setSkipPerPage((newPage - 1) * 10)
+    if (skipPerPage < totalDataLength) {
+      setSkipPerPage((newPage) * 8)
     }
   };
+  let minValue = priceRangeValue[0];
+  let maxValue = priceRangeValue[1];
+  // FOR FILTER ACC TO RANGE
+    const filterPriceRange = data?.filter((item) => {
+      if(item.price >= minValue && item.price <= maxValue){
+        return item
+      }}
+    )
+
+  const result = priceRangeValue >= [0,50] ? data :filterPriceRange;
 
   useEffect(() => {
     if (skipPerPage > 1) {
@@ -113,18 +128,24 @@ const Home = () => {
             })}
           </div>
         )}
-        <Input
-          id="exampleSelect"
-          name="select"
-          type="select"
-          className="sorting-select"
-          onChange={(e) => {
-            setSortPrice(e?.target?.value)
-          }}
-        >
-          <option value="Low to High"> Low to high </option>
-          <option value="High to Low">High to low </option>
-        </Input>
+        <div className="pricebar">
+          <PriceSlider
+            priceRangeValue={priceRangeValue}
+            handlePriceRangeChange={handlePriceRangeChange}
+          />
+          <Input
+            id="exampleSelect"
+            name="select"
+            type="select"
+            className="sorting-select"
+            onChange={(e) => {
+              setSortPrice(e?.target?.value)
+            }}
+          >
+            <option value="Low to High"> Low to high </option>
+            <option value="High to Low">High to low </option>
+          </Input>
+        </div>
       </div>
       {status === "loading" &&
         <div className='loaderWrap'>
@@ -133,7 +154,7 @@ const Home = () => {
       }
       <div className="product-cards">
         {status === "success" &&
-          (data?.map((products) => {
+          (result.map((products) => {
             return (
               <Link to={`/product/${products.id}`} className="card">
                 <div>
@@ -155,11 +176,13 @@ const Home = () => {
             )
           }))}
       </div>
-      <PaginationScreen
+   {priceRangeValue > [0, 50] ? null : (
+     <PaginationScreen
         pageCount={pageCount}
         handleChangePage={handleChangePage}
         pageLength={totalDataLength}
       />
+   )}
     </div>
   )
 }
