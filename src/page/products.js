@@ -26,7 +26,7 @@ const Products = () => {
     return (
         <>
             <div className='single-card'>
-                <a href="/" className='backBtn'>
+                <a href="/product" className='backBtn'>
                     <MdOutlineArrowBackIosNew />
                     <span>Back</span>
                 </a>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from "react-query";
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { Input, Spinner } from 'reactstrap';
 import PaginationScreen from '../Components/pagination';
 import PriceSlider from '../Components/priceSlider';
+import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 
 const fetchSkipdata = async ({ queryKey }) => {
   return await fetch(`https://dummyjson.com/products?skip=${queryKey[1]}&limit=8`)
@@ -14,6 +16,7 @@ const fetchSkipdata = async ({ queryKey }) => {
 };
 
 const Home = () => {
+  const navigate = useNavigate();
   const buttons = ['brand', 'category', 'Title', 'Description']
   const [showFilterOption, setshowFilterOption] = useState();
   const [isFilteredItem, setIsFilteredItem] = useState([])
@@ -22,7 +25,8 @@ const Home = () => {
   const [skipPerPage, setSkipPerPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const [totalDataLength, setTotalDataLength] = useState(0);
-  const [priceRangeValue, setPriceRangeValue] = useState([0,50]);
+  const [priceRangeValue, setPriceRangeValue] = useState([0, 50]);
+  const [wishCount, setWishCount] = useState([]);
 
   const { data, status } = useQuery(['products', skipPerPage], fetchSkipdata);
   const handleCategories = () => {
@@ -45,7 +49,7 @@ const Home = () => {
       });
   };
 
-  const handlePriceRangeChange = (event: any, newValue: number ) => {
+  const handlePriceRangeChange = (event: any, newValue: number) => {
     setPriceRangeValue(newValue);
   };
   // let matchedKeys;
@@ -65,14 +69,16 @@ const Home = () => {
   };
   let minValue = priceRangeValue[0];
   let maxValue = priceRangeValue[1];
-  // FOR FILTER ACC TO RANGE
-    const filterPriceRange = data?.filter((item) => {
-      if(item.price >= minValue && item.price <= maxValue){
-        return item
-      }}
-    )
-
-  const result = priceRangeValue >= [0,50] ? data :filterPriceRange;
+  // FOR FILTER ACC TO RANGE 
+  const filterPriceRange = data?.filter((item) => {
+    if (item.price >= minValue && item.price <= maxValue) {
+      return item
+    }
+  })
+  const addToWishList = (id) => {
+    setWishCount([...wishCount, id])
+  }
+  console.log(wishCount, "wishCount")
 
   useEffect(() => {
     if (skipPerPage > 1) {
@@ -129,22 +135,34 @@ const Home = () => {
           </div>
         )}
         <div className="pricebar">
-          <PriceSlider
-            priceRangeValue={priceRangeValue}
-            handlePriceRangeChange={handlePriceRangeChange}
-          />
-          <Input
-            id="exampleSelect"
-            name="select"
-            type="select"
-            className="sorting-select"
-            onChange={(e) => {
-              setSortPrice(e?.target?.value)
+          <div>
+            <Link to={{
+              pathname: '/product/wishlist',
             }}
-          >
-            <option value="Low to High"> Low to high </option>
-            <option value="High to Low">High to low </option>
-          </Input>
+              state={wishCount}
+            >
+              <HiHeart className='heart-icon' />
+              My wishlist
+            </Link>
+          </div>
+          <div className='d-flex'>
+            <PriceSlider
+              priceRangeValue={priceRangeValue}
+              handlePriceRangeChange={handlePriceRangeChange}
+            />
+            <Input
+              id="exampleSelect"
+              name="select"
+              type="select"
+              className="sorting-select"
+              onChange={(e) => {
+                setSortPrice(e?.target?.value)
+              }}
+            >
+              <option value="Low to High"> Low to high </option>
+              <option value="High to Low">High to low </option>
+            </Input>
+          </div>
         </div>
       </div>
       {status === "loading" &&
@@ -154,9 +172,19 @@ const Home = () => {
       }
       <div className="product-cards">
         {status === "success" &&
-          (result.map((products) => {
+          (data.map((products) => {
+            let result = products?.filter?.((x) => !wishCount.some((y) => y == x.id))
             return (
-              <Link to={`/product/${products.id}`} className="card">
+              <div className="card"
+              // onClick={() => navigate(`/product/${products.id}`)}
+              >
+                <div className='wishlistIcon' onClick={() => addToWishList(products.id)}>
+                  {!result ?
+                    <HiOutlineHeart />
+                    :
+                    <HiHeart />
+                  }
+                </div>
                 <div>
                   <div className='imgBox'>
                     {status === "loading" ?
@@ -164,25 +192,25 @@ const Home = () => {
                       : <img src={products.images[0]} alt="img" className='w-100 h-100' />
                     }
                   </div>
-                  <div className="p-3">
-                    <p className='text-decoration-underline'><b>{products.title}</b></p>
-                    <p>Brand: <b>{products.brand}</b></p>
-                    <p>Category: <b>{products.category}</b></p>
-                    <p>Price: <b>{products.price}</b></p>
-                    <p className='desc'>{products.description}</p>
-                  </div>
                 </div>
-              </Link>
+                <div className="p-3">
+                  <p className='text-decoration-underline'><b>{products.title}</b></p>
+                  <p>Brand: <b>{products.brand}</b></p>
+                  <p>Category: <b>{products.category}</b></p>
+                  <p>Price: <b>{products.price}</b></p>
+                  <p className='desc'>{products.description}</p>
+                </div>
+              </div>
             )
           }))}
       </div>
-   {priceRangeValue > [0, 50] ? null : (
-     <PaginationScreen
-        pageCount={pageCount}
-        handleChangePage={handleChangePage}
-        pageLength={totalDataLength}
-      />
-   )}
+      {priceRangeValue > [0, 50] ? null : (
+        <PaginationScreen
+          pageCount={pageCount}
+          handleChangePage={handleChangePage}
+          pageLength={totalDataLength}
+        />
+      )}
     </div>
   )
 }

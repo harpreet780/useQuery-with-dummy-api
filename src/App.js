@@ -12,7 +12,7 @@ import Wishlist from './page/wishlist';
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/product",
     element:
       <QueryClientProvider client={queryClient}>
         <Home />
