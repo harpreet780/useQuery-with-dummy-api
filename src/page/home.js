@@ -44,6 +44,13 @@ const Home = () => {
     addBtnOptions.push(data);
     setIsFilteredItem(addBtnOptions);
   }
+
+  //single filter 
+  const productList = isFilteredItem && searchInput ? data?.filter?.(item => 
+    item[isFilteredItem]?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
+    : newData
+    console.log(isFilteredItem.includes(),"isFilteredItem")
+
   // for pagination
   const fetchdata = async () => {
     return await fetch(`https://dummyjson.com/products`)
@@ -215,7 +222,7 @@ const Home = () => {
       }
       <div className="product-cards">
         {status === "success" &&
-          (newData?.map((products, index) => {
+          (productList?.map((products, index) => {
             return (
               <div className="card pb-4">
                 <div className='wishlistIcon' onClick={() => addToWishList(products)}>
