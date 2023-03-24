@@ -47,14 +47,6 @@ const Home = () => {
   const handlePriceRangeChange = (event: any, newValue: number ) => {
     setPriceRangeValue(newValue);
   };
-  // let matchedKeys;
-  // const productList = isFilteredItem && searchInput ? products?.filter?.((item) => {
-  //   matchedKeys = Object.keys(item) === isFilteredItem.values()
-  //   return (
-  //     matchedKeys?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
-  // }
-  // )
-  //   : products
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPageCount(newPage);
@@ -126,7 +118,7 @@ const Home = () => {
               )
             })}
           </div>
-        )}
+        }
         <div className="pricebar">
           <PriceSlider
             priceRangeValue={priceRangeValue}
