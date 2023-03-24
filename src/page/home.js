@@ -16,7 +16,6 @@ const fetchSkipdata = async ({ queryKey }) => {
 const Home = () => {
   const buttons = ['brand', 'category', 'Title', 'Description']
   const [showFilterOption, setshowFilterOption] = useState();
-  const [isFilteredItem, setIsFilteredItem] = useState([])
   const [searchInput, setSearchInput] = useState("");
   const [sortPrice, setSortPrice] = useState("")
   const [skipPerPage, setSkipPerPage] = useState(0);
@@ -117,7 +116,7 @@ const Home = () => {
             />
           </div>
         </div>
-        {showFilterOption && (
+        {showFilterOption &&
           <div className='d-flex align-items-center mt-2'>
             {buttons?.map((btn) => {
               return (
