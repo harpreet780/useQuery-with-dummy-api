@@ -6,6 +6,7 @@ import { Input, Spinner } from 'reactstrap';
 import PaginationScreen from '../Components/pagination';
 import PriceSlider from '../Components/priceSlider';
 import { HiHeart, HiOutlineHeart } from "react-icons/hi";
+import { GiShoppingCart } from "react-icons/gi";
 
 const fetchSkipdata = async ({ queryKey }) => {
   return await fetch(`https://dummyjson.com/products?skip=${queryKey[1]}&limit=8`)
@@ -27,18 +28,23 @@ const Home = () => {
   const [totalDataLength, setTotalDataLength] = useState(0);
   const [priceRangeValue, setPriceRangeValue] = useState([0, 50]);
   const [wishCount, setWishCount] = useState([]);
-
   const { data, status } = useQuery(['products', skipPerPage], fetchSkipdata);
+  //store data into state for quantity update
+  const [newData, setNewData] = useState([]);
+
+  //store data into state to send for add to cart
+  const [addCart, setAddCart] = useState([]);
+
   const handleCategories = () => {
     setshowFilterOption(!showFilterOption);
   }
-
+  // multi filter option 
   const filterOptions = (data) => {
     const addBtnOptions = [...isFilteredItem]
     addBtnOptions.push(data);
     setIsFilteredItem(addBtnOptions);
   }
-
+  // for pagination
   const fetchdata = async () => {
     return await fetch(`https://dummyjson.com/products`)
       .then((response) => response.json())
@@ -52,14 +58,6 @@ const Home = () => {
   const handlePriceRangeChange = (event: any, newValue: number) => {
     setPriceRangeValue(newValue);
   };
-  // let matchedKeys;
-  // const productList = isFilteredItem && searchInput ? products?.filter?.((item) => {
-  //   matchedKeys = Object.keys(item) === isFilteredItem.values()
-  //   return (
-  //     matchedKeys?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
-  // }
-  // )
-  //   : products
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPageCount(newPage);
@@ -67,25 +65,41 @@ const Home = () => {
       setSkipPerPage((newPage) * 8)
     }
   };
+  // FOR FILTER ACC TO RANGE 
   let minValue = priceRangeValue[0];
   let maxValue = priceRangeValue[1];
-  // FOR FILTER ACC TO RANGE 
   const filterPriceRange = data?.filter((item) => {
     if (item.price >= minValue && item.price <= maxValue) {
       return item
     }
   })
-  const addToWishList = (id) => {
-    setWishCount([...wishCount, id])
-  }
-  console.log(wishCount, "wishCount")
 
+  // FOR WISHLIST
+  const addToWishList = (products,index) => {
+    // let isWish = !products.wishlist;
+    // let add = [...newData]
+    // add[index].wishlist = isWish
+    // setNewData(arr)
+
+    let obj = {
+      id: products.id,
+      wishlist: true
+    }
+
+    let arr = [...wishCount]
+    arr.push(obj)
+    setWishCount(arr)
+    localStorage.setItem("wishList", JSON.stringify(wishCount))
+  }
+
+  // FOR SKIP FUNCTION
   useEffect(() => {
     if (skipPerPage > 1) {
       fetchSkipdata(skipPerPage)
     }
   }, [skipPerPage])
 
+  //price filter
   useEffect(() => {
     if (sortPrice === "High to Low") {
       data?.sort((a, b) => a.price - b.price);
@@ -95,9 +109,31 @@ const Home = () => {
     }
   }, [sortPrice])
 
+  //add to cart function for button
+  const addToCart = (products) => {
+    let arr = [...addCart]
+    arr?.push(products)
+    setAddCart(arr);
+    localStorage.setItem("addToCart", JSON.stringify(addCart))
+  }
+
+  // initial api data
   useEffect(() => {
     fetchdata()
+
   }, [])
+  // make function to add quantity key to api data
+
+  useEffect(() => {
+    if (data) {
+      let arr = data?.map((item) => {
+        item.quantity = 0
+        item.wishlist = false
+        return item;
+      })
+      setNewData(arr);
+    }
+  }, [data])
 
   return (
     <div className="productListWrap">
@@ -134,7 +170,7 @@ const Home = () => {
             })}
           </div>
         )}
-        <div className="pricebar">
+        <div className="pricebar mt-4">
           <div>
             <Link to={{
               pathname: '/product/wishlist',
@@ -143,6 +179,13 @@ const Home = () => {
             >
               <HiHeart className='heart-icon' />
               My wishlist
+            </Link>
+            <Link to={{ pathname: `/product/cart` }}
+              state={addCart}
+              style={{ marginLeft: 20 }}
+            >
+              <GiShoppingCart className='heart-icon' />
+              My Cart
             </Link>
           </div>
           <div className='d-flex'>
@@ -172,34 +215,61 @@ const Home = () => {
       }
       <div className="product-cards">
         {status === "success" &&
-          (data.map((products) => {
-            let result = products?.filter?.((x) => !wishCount.some((y) => y == x.id))
+          (newData?.map((products, index) => {
             return (
-              <div className="card"
-              // onClick={() => navigate(`/product/${products.id}`)}
-              >
-                <div className='wishlistIcon' onClick={() => addToWishList(products.id)}>
-                  {!result ?
-                    <HiOutlineHeart />
-                    :
+              <div className="card pb-4">
+                <div className='wishlistIcon' onClick={() => addToWishList(products)}>
+                  {products.wishlist === true ?
                     <HiHeart />
+                    :
+                    <HiOutlineHeart />
                   }
                 </div>
-                <div>
-                  <div className='imgBox'>
-                    {status === "loading" ?
-                      <Spinner color="primary" />
-                      : <img src={products.images[0]} alt="img" className='w-100 h-100' />
-                    }
+                <div
+                  onClick={() => navigate(`/product/${products.id}`)}
+                >
+                  <div>
+                    <div className='imgBox'>
+                      {status === "loading" ?
+                        <Spinner color="primary" />
+                        : <img src={products.images[0]} alt="img" className='w-100 h-100' />
+                      }
+                    </div>
+                  </div>
+                  <div className="p-3">
+                    <p className='text-decoration-underline'><b>{products.title}</b></p>
+                    <p>Brand: <b>{products.brand}</b></p>
+                    <p>Category: <b>{products.category}</b></p>
+                    <p>Price: <b>{products.price}</b></p>
+                    <p className='desc'>{products.description}</p>
                   </div>
                 </div>
-                <div className="p-3">
-                  <p className='text-decoration-underline'><b>{products.title}</b></p>
-                  <p>Brand: <b>{products.brand}</b></p>
-                  <p>Category: <b>{products.category}</b></p>
-                  <p>Price: <b>{products.price}</b></p>
-                  <p className='desc'>{products.description}</p>
+                {/* quantity btn */}
+                <div className='d-flex align-items-center justify-content-center mb-3'>
+                  <b>Quantity: </b>
+                  <button className="quantityBtn" onClick={() => {
+                    let num = products.quantity - 1;
+                    let arr = [...newData]
+                    arr[index].quantity = num
+                    setNewData(arr)
+                  }}
+                  >
+                    -
+                  </button>
+                  {products.quantity}
+                  <button className="quantityBtn" onClick={() => {
+                    let num = products.quantity + 1;
+                    let arr = [...newData]
+                    arr[index].quantity = num
+                    setNewData(arr)
+                  }}
+                  >
+                    +
+                  </button>
                 </div>
+                <button className='listbtn d-block w-75 m-auto primaryColor' onClick={() => addToCart(products)}>
+                  Add to Cart
+                </button>
               </div>
             )
           }))}

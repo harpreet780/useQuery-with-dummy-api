@@ -8,6 +8,7 @@ import {
 import Products from './page/products';
 import ErrorPage from "./page/errorPage";
 import Wishlist from './page/wishlist';
+import Cart from './page/cart';
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
     path: "product/:productId",
     element:
       <QueryClientProvider client={queryClient}>
-        <Products />,
+        <Products />
       </QueryClientProvider>,
     errorElement: <ErrorPage />,
   },
@@ -31,7 +32,15 @@ const router = createBrowserRouter([
     path: "product/wishlist",
     element:
       <QueryClientProvider client={queryClient}>
-        <Wishlist />,
+        <Wishlist />
+      </QueryClientProvider>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "product/cart",
+    element:
+      <QueryClientProvider client={queryClient}>
+        <Cart />
       </QueryClientProvider>,
     errorElement: <ErrorPage />,
   },

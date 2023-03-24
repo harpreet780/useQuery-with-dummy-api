@@ -17,20 +17,11 @@ const Wishlist = () => {
     let location = useLocation();
     const propsData = location?.state;
 
-    console.log(propsData, "propsData");
-
-    // var res = data.filter((dataId) => {
-    //     return propsData.some((stateId) =>{
-    //         return dataId.id === stateId;
-    //     })
-    // });
-    //     console.log(res,"res")
-
-    let result = data?.filter?.((x) => propsData.some((y) => y == x.id))
-    console.log(result, "ddd")
+    let result = data?.filter?.((x) => propsData.some((y) => y.id == x.id))
 
     useEffect(() => {
         fetchWishData()
+        JSON.parse(localStorage.getItem("wishList"))
     }, [])
 
     return (
@@ -46,6 +37,7 @@ const Wishlist = () => {
                         <Spinner color="primary" />
                     </div>
                 }
+                {result?.length == 0 && <p className='loaderWrap'>No Data Found</p>}
                 {status === "success" && (result?.map((wish) => {
                     return (
                         <div className="card">

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-import { MdOutlineArrowBackIosNew } from "react-icons/md"
+import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { Spinner } from 'reactstrap';
 
 const Products = () => {
     const params = useParams();
     const [singleProduct, setSingleProduct] = useState([]);
     const [loading, setLoading] = useState(false)
+
     const fetchdata = async () => {
         setLoading(true);
         return await fetch(`https://dummyjson.com/products/${params.productId}`)
