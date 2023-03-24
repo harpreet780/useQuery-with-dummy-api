@@ -17,7 +17,6 @@ const PriceSlider = ({
                 max={2000}
                 // getAriaValueText={"saadas"}
             />
-            {console.log(priceRangeValue,"price")}
         </Box>
     )
 }
