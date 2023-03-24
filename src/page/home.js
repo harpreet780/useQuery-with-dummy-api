@@ -49,7 +49,6 @@ const Home = () => {
   const productList = isFilteredItem && searchInput ? data?.filter?.(item => 
     item[isFilteredItem]?.toLowerCase?.().includes(searchInput.toLowerCase()) === searchInput?.toLowerCase?.().includes(searchInput.toLowerCase()))
     : newData
-    console.log(isFilteredItem.includes(),"isFilteredItem")
 
   // for pagination
   const fetchdata = async () => {
