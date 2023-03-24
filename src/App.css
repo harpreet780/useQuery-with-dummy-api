@@ -2,11 +2,13 @@
   width: 80%;
   margin: 20px auto;
 }
+
 .header {
   margin-left: 55px;
-  width: 90%;
+  width: 95%;
   margin: auto;
 }
+
 .product-cards {
   display: flex;
   align-items: center;
@@ -15,14 +17,17 @@
   margin: auto;
   padding: 20px 0;
 }
+
 .card {
-  width: 30%;
+  width: 23%;
   margin: 5px;
   background-color: #fff;
   border: 1px solid #ccc;
-  min-height: 430px;
+  min-height: 565px;
   border-radius: 8px;
   overflow: hidden;
+  text-decoration: none !important;
+  cursor: pointer;
 }
 
 .card:hover {
@@ -32,16 +37,18 @@
 .card p {
   margin-bottom: 10px !important;
   line-height: 18px;
+  color: #000 !important;
   font-size: 16px;
 }
+
 .desc {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;  
-    font-size: 14px !important;
-    line-height: 20px !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  font-size: 14px !important;
+  line-height: 20px !important;
 }
 
 .imgBox {
@@ -50,21 +57,26 @@
   margin-bottom: 10px;
   border-bottom: 1px solid #efefef;
 }
+
 .imgBox img {
   object-fit: fill;
 }
+
 .listbtn {
   padding: 8px 20px;
   font-size: 16px;
   line-height: 20px;
   outline: none;
+  text-transform: capitalize;
   border: 1px solid #ccc;
   border-radius: 20px;
   margin: 5px;
 }
+
 .card-active {
   background-color: #addfa7;
 }
+
 .SearchOption {
   width: 100%;
   background-color: #fff;
@@ -76,6 +88,7 @@
   color: #454545;
   margin-left: 10px;
 }
+
 .loaderWrap {
   height: 70vh;
   display: flex;
@@ -83,30 +96,184 @@
   justify-content: center;
 }
 
+.single-card {
+  width: 80%;
+  margin: 50px auto;
+}
+
+.single-card .imgBox {
+  height: 500px;
+  width: 500px;
+  margin: auto;
+  display: block;
+  border-bottom: none;
+}
+
+.single-card .imgBox img {
+  object-fit: cover;
+}
+
+.single-card p {
+  text-align: center;
+}
+
+.backBtn {
+  color: #000 !important;
+  font-size: 16px;
+  text-decoration: none;
+  background-color: rgb(255, 160, 33);
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 10px 20px;
+}
+
+.backBtn svg {
+  margin-top: -2px;
+}
+
+.errorPage {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sorting-select {
+  width: 55%;
+}
+
+.rangeBarSize {
+  width: 300px;
+  margin-right: 20px;
+}
+
+.pricebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pricebar a {
+  color: #000 !important;
+  text-decoration: unset !important;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination p {
+  margin-bottom: 0 !important;
+}
+
+.disable-paginationBtn button {
+  cursor: not-allowed !important;
+  opacity: 0.3 !important;
+}
+
+.wishlistIcon {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  z-index: 999;
+}
+
+.wishlistIcon svg,
+.heart-icon {
+  font-size: 32px;
+  color: rgb(255, 160, 33);
+  cursor: pointer;
+}
+
+.quantityBtn {
+  padding: 4px 15px;
+  outline: none;
+  background-color: #ccc;
+  border: #454545;
+  border-radius: 4px;
+  margin: 0 12px;
+}
+
+.primaryColor {
+  background-color: rgb(255, 160, 33);
+}
+
+.primaryColor:hover {
+  background-color: rgb(230, 171, 95);
+}
+
+.table {
+  width: 80%;
+  margin: auto;
+  table-layout: fixed;
+  border: 1px solid #ccc;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ccc !important;
+  text-align: center;
+}
+
 @media only screen and (max-width: 1200px) {
   .card {
     width: 48%;
   }
 }
+
 @media only screen and (max-width: 1200px) {
   .card {
-    min-height: 440px;
     width: 48%;
   }
+
   .header {
     width: 100%;
   }
 }
+
 @media only screen and (max-width: 767px) {
+
+  .sorting-select,
+  .rangeBarSize {
+    width: 100%;
+    margin: 0 auto !important;
+  }
+
   .productListWrap {
     padding: 20px;
     width: 100%;
   }
+
+  .single-card h3 {
+    margin-top: 20px;
+  }
+
   .card {
     width: 100%;
-    min-height: 330px;
+    min-height: 400px;
   }
+
   .imgBox {
     height: 200px;
+  }
+
+  .single-card .imgBox {
+    height: 200px;
+    width: 200px;
+  }
+
+  .single-card {
+    width: 90%;
+    margin: 20px auto;
+  }
+
+  .single-card p {
+    font-size: 14px;
+  }
+
+  .pricebar {
+    display: block;
+    margin: auto;
   }
 }

@@ -1,14 +1,55 @@
 import Home from './page/home';
 import './App.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Products from './page/products';
+import ErrorPage from "./page/errorPage";
+import Wishlist from './page/wishlist';
+import Cart from './page/cart';
 
 const queryClient = new QueryClient()
+const router = createBrowserRouter([
+  {
+    path: "/product",
+    element:
+      <QueryClientProvider client={queryClient}>
+        <Home />
+      </QueryClientProvider>,
+    errorElement: <ErrorPage/>,
+  },
+  {
+    path: "product/:productId",
+    element:
+      <QueryClientProvider client={queryClient}>
+        <Products />
+      </QueryClientProvider>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "product/wishlist",
+    element:
+      <QueryClientProvider client={queryClient}>
+        <Wishlist />
+      </QueryClientProvider>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "product/cart",
+    element:
+      <QueryClientProvider client={queryClient}>
+        <Cart />
+      </QueryClientProvider>,
+    errorElement: <ErrorPage />,
+  },
+])
+
 function App() {
   return (
     <div className="App">
-      <QueryClientProvider client={queryClient}>
-        <Home />
-      </QueryClientProvider>
+      <RouterProvider router={router} />
     </div>
   );
 }
