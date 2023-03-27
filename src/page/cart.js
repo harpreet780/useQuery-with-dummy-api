@@ -11,13 +11,11 @@ const Cart = () => {
         return sum;
     }
 
-    const total_Bill = () => {
-        
+    const total_Bill = () => {  
        let total_value = addToCartData?.map((item) => {
         return (parseInt(item.price) * parseInt(item.quantity));
          
        })
-
      return total_value.reduce((a, b) => a + b, 0)
 
     }

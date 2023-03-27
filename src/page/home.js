@@ -256,8 +256,10 @@ const Home = () => {
                   <button className="quantityBtn" onClick={() => {
                     let num = products.quantity - 1;
                     let arr = [...newData]
+                    if(num >0) {
                     arr[index].quantity = num
                     setNewData(arr)
+                    }
                   }}
                   >
                     -
