@@ -7,6 +7,9 @@ import PaginationScreen from '../Components/pagination';
 import PriceSlider from '../Components/priceSlider';
 import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 import { GiShoppingCart } from "react-icons/gi";
+import { useDispatch } from 'react-redux';
+import { ADD_TO_CART } from './redux/actions/action';
+import {RiShoppingBagFill} from "react-icons/ri";
 
 const fetchSkipdata = async ({ queryKey }) => {
   return await fetch(`https://dummyjson.com/products?skip=${queryKey[1]}&limit=8`)
@@ -17,6 +20,8 @@ const fetchSkipdata = async ({ queryKey }) => {
 };
 
 const Home = () => {
+  const dispatch = useDispatch();
+  
   const navigate = useNavigate();
   const buttons = ['brand', 'category', 'Title', 'Description']
   const [showFilterOption, setshowFilterOption] = useState();
@@ -31,9 +36,6 @@ const Home = () => {
   const { data, status } = useQuery(['products', skipPerPage], fetchSkipdata);
   //store data into state for quantity update
   const [newData, setNewData] = useState([]);
-
-  //store data into state to send for add to cart
-  const [addCart, setAddCart] = useState([]);
 
   const handleCategories = () => {
     setshowFilterOption(!showFilterOption);
@@ -115,14 +117,6 @@ const Home = () => {
     }
   }, [sortPrice])
 
-  //add to cart function for button
-  const addToCart = (products) => {
-    let arr = [...addCart]
-    arr?.push(products)
-    setAddCart(arr);
-    localStorage.setItem("addToCart", JSON.stringify(addCart))
-  }
-
   // initial api data
   useEffect(() => {
     fetchdata()
@@ -187,11 +181,16 @@ const Home = () => {
               My wishlist
             </Link>
             <Link to={{ pathname: `/product/cart` }}
-              state={addCart}
               style={{ marginLeft: 20 }}
             >
               <GiShoppingCart className='heart-icon' />
               My Cart
+            </Link>
+            <Link to={{ pathname: "/product/order" }}
+              style={{ marginLeft: 20 }}
+            >
+              <RiShoppingBagFill className="heart-icon" />
+              My Order
             </Link>
           </div>
           <div className='d-flex'>
@@ -275,7 +274,7 @@ const Home = () => {
                     +
                   </button>
                 </div>
-                <button className='listbtn d-block w-75 m-auto primaryColor' onClick={() => addToCart(products)}>
+                <button className='listbtn d-block w-75 m-auto primaryColor' onClick={() => dispatch({type: ADD_TO_CART, payload: products})}>
                   Add to Cart
                 </button>
               </div>

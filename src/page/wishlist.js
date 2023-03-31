@@ -37,7 +37,7 @@ const Wishlist = () => {
                         <Spinner color="primary" />
                     </div>
                 }
-                {result?.length == 0 && <p className='loaderWrap'>No Data Found</p>}
+                {result?.length == 0 && <p className='loaderWrap'><i>Your wishlist is empty!!</i></p>}
                 {status === "success" && (result?.map((wish) => {
                     return (
                         <div className="card">

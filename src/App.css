@@ -215,6 +215,50 @@
   border: 1px solid #ccc !important;
   text-align: center;
 }
+.formWrapper {
+  width: 50%;
+  margin: auto;
+  padding: 20px;
+}
+.formWrapper label {
+  width: 120px;
+}
+.formWrapper .form-control {
+  margin-left: 20px !important;
+}
+input {
+  width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #666666;
+  border: none;
+  padding: 10px !important;
+  border: 1px solid #ccc;
+  outline: none;
+}
+.wraps {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+.title {
+  width: 30%;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+}
+.orderlist {
+  display: flex;
+  align-items: flex-start;
+}
+.text {
+  width: 70%;
+  text-align: left;
+}
 
 @media only screen and (max-width: 1200px) {
   .card {
