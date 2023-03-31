@@ -8,7 +8,6 @@ const AddressForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const getUserAdress = useSelector((state)=> state.add_address);
-    console.log(getUserAdress,"addddddresss")
     const showTotalbill = useSelector((state) => state.bill);
 
     return (

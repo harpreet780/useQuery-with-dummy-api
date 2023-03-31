@@ -7,7 +7,6 @@ const Cart = () => {
     const navigate = useNavigate();
     const getCartItems = useSelector((state) => state.addToCart);
     const calculate_total_bill = useSelector((state) => state.bill);
-    const showOrderList = useSelector(state => state.submit_user_address);
 
     const calculateBill = (cart) => {
         const sum = cart.price * cart.quantity;

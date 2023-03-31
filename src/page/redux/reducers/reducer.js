@@ -36,7 +36,6 @@ export default (state = initialState, action) => {
             addNewKey.id = Math.floor(Math.random() * 100);
             addNewKey.price = setBill;
             updatePrevarr.push(addNewKey);
-            console.log(updatePrevarr,"updatePrevarr")
             return { ...state, submit_user_address: updatePrevarr,addToCart:[], add_address: {
                 name: "",
                 mobile: "",
